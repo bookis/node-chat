@@ -1,27 +1,17 @@
 var http = require('http');
-var url  = require("url");
-var pg   = require("pg");
-var fs   = require('fs');
+var fs   = require("fs");
+// socket.io
 
-
-http.createServer(function (req, res) {
-  urlInfo = url.parse(req.url, true)
-  switch (urlInfo.pathname) {
-  case "/":
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    var html = fs.readFileSync("index.html", "utf8")
-    res.end(html);
-  case "/client.js":
-    res.writeHead(200, {'Content-Type': 'application/javascript'});
-    var js = fs.readFileSync("client.js", "utf8")
-    res.end(js);
-  case "/hello":
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello World\n');
-  default:
-    res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Not Found\n');
+http.createServer(function (request, response) {
+  if (request.url == "/") {
+    fs.readFile("index.html", "utf8", function (err, data) {
+      response.writeHead(200, {'Content-Type': 'text/html'});
+      response.end(data);
+    });
+  } else if (request.url == "/messages.json") {
+    response.writeHead(200, {'Content-Type': 'application/json'});
+    response.end("{a: 'b'}");
   }
 }).listen(1337, '127.0.0.1');
 
-console.log('Server running at http://127.0.0.1:1337/');
+console.log("Webserver Started")
