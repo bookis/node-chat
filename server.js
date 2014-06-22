@@ -14,15 +14,18 @@ http.createServer(function (request, response) {
     response.end("{a: 'b'}");
   } else if (request.url == "/messages") {
     var fullBody = '';
+    console.log("test");
     request.on('data', function(chunk) {
       fullBody += chunk.toString();
       var parsedMessage = queryString.parse(fullBody)
       response.writeHead(200, {'Content-Type': 'text/html'});
       response.end(parsedMessage.message);
     });
-    
-    
-    console.log(fullBody)
+  } else if (request.url == "/chat.js") {
+    fs.readFile("chat.js", "utf8", function (err, data) {
+      response.writeHead(200, {'Content-Type': 'application/javascript'});
+      response.end(data);
+    });
   } else {
     response.writeHead(404, {'Content-Type': 'text/html'});
     response.end("404");
