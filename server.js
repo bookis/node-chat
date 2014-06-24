@@ -15,7 +15,7 @@ http.createServer(function (request, response) {
   } else if (request.url == "/messages") {
     var fullBody = '';
     console.log("test");
-    request.on('data', function(chunk) {
+    request.on('data', function (chunk) {
       fullBody += chunk.toString();
       var parsedMessage = queryString.parse(fullBody)
       response.writeHead(200, {'Content-Type': 'text/html'});
