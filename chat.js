@@ -4,7 +4,9 @@ $(document).ready(function () {
       type: "POST",
       data: {message: $("#message").val()},
       success: function (data) {
-        alert(data);
+        var li = $("<li>")
+        li.text(data);
+        $("ul#messages").append(li);
       }
     });
     return false;
